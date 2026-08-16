@@ -34,23 +34,162 @@ const assessmentMessage =
 const checksContainer =
     document.getElementById("checksContainer");
 
+const analysisAnimation =
+    document.getElementById("analysisAnimation");
 
-/*
-==========================================================
-ANIMATION VARIABLES
-==========================================================
-*/
+
+/* =========================================================
+   ANALYSIS STATE
+========================================================= */
 
 let analysisTimer = null;
 
-let progressTimer = null;
+let currentStep = 1;
 
 
 /*
-==========================================================
-FORM SUBMISSION
-==========================================================
+    Start visual analysis animation.
 */
+
+function startAnalysisAnimation() {
+
+    currentStep = 1;
+
+    analysisAnimation.classList.remove("hidden");
+
+    checksContainer.classList.add("hidden");
+
+    const steps =
+        document.querySelectorAll(
+            ".analysis-step"
+        );
+
+
+    steps.forEach(step => {
+
+        step.classList.remove(
+            "active",
+            "completed"
+        );
+
+    });
+
+
+    if (steps.length > 0) {
+
+        steps[0].classList.add(
+            "active"
+        );
+
+    }
+
+
+    /*
+        Move through the visual steps.
+
+        IMPORTANT:
+
+        These are visual only.
+
+        The real verification is still
+        performed by server.js.
+    */
+
+    analysisTimer =
+        setInterval(() => {
+
+            const current =
+                document.querySelector(
+                    `.analysis-step[data-step="${currentStep}"]`
+                );
+
+
+            if (current) {
+
+                current.classList.remove(
+                    "active"
+                );
+
+                current.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            currentStep++;
+
+
+            if (currentStep <= 6) {
+
+                const next =
+                    document.querySelector(
+                        `.analysis-step[data-step="${currentStep}"]`
+                    );
+
+
+                if (next) {
+
+                    next.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+
+            else {
+
+                stopAnalysisAnimation();
+
+            }
+
+        }, 1000);
+
+}
+
+
+/*
+    Stop visual animation.
+*/
+
+function stopAnalysisAnimation() {
+
+    if (analysisTimer) {
+
+        clearInterval(
+            analysisTimer
+        );
+
+        analysisTimer = null;
+
+    }
+
+}
+
+
+/*
+    Hide scanner and show actual results.
+*/
+
+function finishAnalysisAnimation() {
+
+    stopAnalysisAnimation();
+
+    analysisAnimation.classList.add(
+        "hidden"
+    );
+
+    checksContainer.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
 
 form.addEventListener(
     "submit",
@@ -65,7 +204,9 @@ form.addEventListener(
 
         if (!company) {
 
-            input.focus();
+            alert(
+                "Please enter a company name or website."
+            );
 
             return;
 
@@ -73,42 +214,61 @@ form.addEventListener(
 
 
         /*
-        Show result section.
+            Show result area.
         */
 
-        result.classList.remove("hidden");
+        result.classList.remove(
+            "hidden"
+        );
+
+
+        companyName.textContent =
+            company;
+
+
+        statusBadge.textContent =
+            "ANALYZING...";
+
+
+        statusBadge.className =
+            "status";
+
+
+        passedCount.textContent =
+            "0";
+
+
+        failedCount.textContent =
+            "0";
+
+
+        notVerifiedCount.textContent =
+            "0";
+
+
+        assessmentTitle.textContent =
+            "Analyzing company...";
+
+
+        assessmentMessage.textContent =
+            "Company Checker is checking publicly available information.";
 
 
         /*
-        Scroll to report.
+            Start visual scanner.
         */
 
-        setTimeout(() => {
-
-            result.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        }, 100);
-
-
-        /*
-        Start loading screen.
-        */
-
-        setLoadingState(company);
-
-
-        /*
-        Record when request started.
-        */
-
-        const startTime =
-            Date.now();
+        startAnalysisAnimation();
 
 
         try {
+
+            /*
+                THIS IS YOUR EXISTING
+                BACKEND CONNECTION.
+
+                DO NOT CHANGE IT.
+            */
 
             const response =
                 await fetch(
@@ -118,13 +278,16 @@ form.addEventListener(
                         method: "POST",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json"
+
                         },
 
                         body:
                             JSON.stringify({
-                                company: company
+                                company:
+                                    company
                             })
 
                     }
@@ -139,50 +302,48 @@ form.addEventListener(
 
                 throw new Error(
                     data.error ||
-                    "Unable to analyze this company."
+                    "Unable to analyze company."
                 );
 
             }
 
 
             /*
-            ------------------------------------------------
-            IMPORTANT
-
-            Keep the animation visible for at least
-            2.5 seconds so the user can actually see it.
-            ------------------------------------------------
+                Real backend result received.
             */
 
-            const elapsed =
-                Date.now() - startTime;
+            finishAnalysisAnimation();
 
 
-            const minimumTime =
-                2500;
-
-
-            const remaining =
-                Math.max(
-                    0,
-                    minimumTime - elapsed
-                );
-
-
-            setTimeout(() => {
-
-                displayReport(data);
-
-            }, remaining);
+            displayReport(
+                data
+            );
 
         }
 
-
         catch (error) {
 
-            displayError(
-                error.message
-            );
+            finishAnalysisAnimation();
+
+
+            statusBadge.textContent =
+                "ERROR";
+
+
+            statusBadge.className =
+                "status high";
+
+
+            assessmentTitle.textContent =
+                "Something went wrong";
+
+
+            assessmentMessage.textContent =
+                error.message;
+
+
+            checksContainer.innerHTML =
+                "";
 
         }
 
@@ -190,405 +351,15 @@ form.addEventListener(
 );
 
 
-/*
-==========================================================
-LOADING SCREEN
-==========================================================
-*/
-
-function setLoadingState(company) {
-
-    /*
-    Company information.
-    */
-
-    companyName.textContent =
-        company;
-
-
-    checkedDate.textContent =
-        "Running verification checks...";
-
-
-    /*
-    Assessment.
-    */
-
-    assessmentTitle.textContent =
-        "Analyzing company...";
-
-
-    assessmentMessage.textContent =
-        "We're checking publicly available technical information. Please wait while we investigate the domain.";
-
-
-    /*
-    Status.
-    */
-
-    statusBadge.textContent =
-        "ANALYZING";
-
-
-    statusBadge.className =
-        "status analyzing";
-
-
-    /*
-    Reset counters.
-    */
-
-    passedCount.textContent =
-        "—";
-
-    failedCount.textContent =
-        "—";
-
-    notVerifiedCount.textContent =
-        "—";
-
-
-    /*
-    ------------------------------------------------------
-    ANALYSIS UI
-    ------------------------------------------------------
-    */
-
-    checksContainer.innerHTML = `
-
-        <div class="analysis-box">
-
-            <div class="analysis-animation">
-
-                <div class="scanner">
-
-                    <div class="scanner-ring ring-one"></div>
-
-                    <div class="scanner-ring ring-two"></div>
-
-                    <div class="scanner-line"></div>
-
-                    <div class="scanner-dot"></div>
-
-                </div>
-
-            </div>
-
-
-            <div class="analysis-content">
-
-                <div class="analysis-eyebrow">
-                    LIVE VERIFICATION
-                </div>
-
-
-                <strong id="analysisTitle">
-                    Starting verification...
-                </strong>
-
-
-                <p id="analysisMessage">
-                    Preparing security checks.
-                </p>
-
-
-                <div class="analysis-progress">
-
-                    <div
-                        id="analysisProgressBar"
-                        class="analysis-progress-bar">
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="analysisPercentage"
-                    class="analysis-percentage">
-                    0%
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    startAnalysisAnimation();
-
-}
-
-
-/*
-==========================================================
-ANALYSIS ANIMATION
-==========================================================
-*/
-
-function startAnalysisAnimation() {
-
-    stopAnalysisAnimation();
-
-
-    const title =
-        document.getElementById(
-            "analysisTitle"
-        );
-
-
-    const message =
-        document.getElementById(
-            "analysisMessage"
-        );
-
-
-    const progressBar =
-        document.getElementById(
-            "analysisProgressBar"
-        );
-
-
-    const percentage =
-        document.getElementById(
-            "analysisPercentage"
-        );
-
-
-    if (
-        !title ||
-        !message ||
-        !progressBar
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-    ------------------------------------------------------
-    VERIFICATION STEPS
-    ------------------------------------------------------
-    */
-
-    const steps = [
-
-        {
-            title:
-                "Checking domain",
-
-            message:
-                "Resolving the company domain through DNS."
-        },
-
-        {
-            title:
-                "Checking website",
-
-            message:
-                "Testing whether the website responds."
-        },
-
-        {
-            title:
-                "Checking HTTPS",
-
-            message:
-                "Verifying the website's secure connection."
-        },
-
-        {
-            title:
-                "Checking registration",
-
-            message:
-                "Looking for public domain registration information."
-        },
-
-        {
-            title:
-                "Reviewing evidence",
-
-            message:
-                "Combining the available verification results."
-        }
-
-    ];
-
-
-    let currentStep =
-        0;
-
-
-    let progress =
-        4;
-
-
-    /*
-    Show first step immediately.
-    */
-
-    title.textContent =
-        steps[0].title;
-
-
-    message.textContent =
-        steps[0].message;
-
-
-    /*
-    ------------------------------------------------------
-    CHANGE STEP
-    ------------------------------------------------------
-    */
-
-    analysisTimer =
-        setInterval(() => {
-
-            currentStep++;
-
-
-            if (
-                currentStep >=
-                steps.length
-            ) {
-
-                currentStep =
-                    steps.length - 1;
-
-            }
-
-
-            title.textContent =
-                steps[currentStep].title;
-
-
-            message.textContent =
-                steps[currentStep].message;
-
-
-        }, 500);
-
-
-    /*
-    ------------------------------------------------------
-    PROGRESS
-    ------------------------------------------------------
-
-    This is intentionally slow.
-
-    It never reaches 100% while waiting.
-    */
-
-    progressTimer =
-        setInterval(() => {
-
-            if (progress < 90) {
-
-                progress +=
-                    Math.random() * 3 + 1;
-
-
-                progress =
-                    Math.min(
-                        progress,
-                        90
-                    );
-
-
-                progressBar.style.width =
-                    `${progress}%`;
-
-
-                if (percentage) {
-
-                    percentage.textContent =
-                        `${Math.round(progress)}%`;
-
-                }
-
-            }
-
-        }, 150);
-
-}
-
-
-/*
-==========================================================
-STOP ANIMATION
-==========================================================
-*/
-
-function stopAnalysisAnimation() {
-
-    if (analysisTimer) {
-
-        clearInterval(
-            analysisTimer
-        );
-
-        analysisTimer =
-            null;
-
-    }
-
-
-    if (progressTimer) {
-
-        clearInterval(
-            progressTimer
-        );
-
-        progressTimer =
-            null;
-
-    }
-
-}
-
-
-/*
-==========================================================
-DISPLAY REPORT
-==========================================================
-*/
+/* =========================================================
+   DISPLAY REPORT
+========================================================= */
 
 function displayReport(data) {
-
-    stopAnalysisAnimation();
-
-
-    /*
-    Complete progress animation.
-    */
-
-    const progressBar =
-        document.getElementById(
-            "analysisProgressBar"
-        );
-
-
-    if (progressBar) {
-
-        progressBar.style.width =
-            "100%";
-
-    }
-
-
-    /*
-    Company.
-    */
 
     companyName.textContent =
         data.company;
 
-
-    /*
-    Date.
-    */
 
     const date =
         new Date(
@@ -600,10 +371,6 @@ function displayReport(data) {
         "Report generated: " +
         date.toLocaleString();
 
-
-    /*
-    Summary.
-    */
 
     passedCount.textContent =
         data.summary.passed;
@@ -617,10 +384,6 @@ function displayReport(data) {
         data.summary.notVerified;
 
 
-    /*
-    Assessment.
-    */
-
     assessmentTitle.textContent =
         data.assessment.title;
 
@@ -628,10 +391,6 @@ function displayReport(data) {
     assessmentMessage.textContent =
         data.assessment.message;
 
-
-    /*
-    Status.
-    */
 
     statusBadge.textContent =
         getAssessmentLabel(
@@ -646,43 +405,9 @@ function displayReport(data) {
         );
 
 
-    /*
-    Checks.
-    */
-
     checksContainer.innerHTML =
         "";
 
-
-    if (
-        !Array.isArray(data.checks) ||
-        data.checks.length === 0
-    ) {
-
-        checksContainer.innerHTML = `
-
-            <div class="check-card">
-
-                <strong>
-                    No verification checks available
-                </strong>
-
-                <p class="check-explanation">
-                    The system could not produce any checks for this input.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    /*
-    Create check cards.
-    */
 
     data.checks.forEach(
         (check, index) => {
@@ -694,11 +419,16 @@ function displayReport(data) {
 
 
             card.className =
-                "check-card result-card";
+                "check-card";
 
+
+            /*
+                Small delay gives the result
+                cards a nice sequential appearance.
+            */
 
             card.style.animationDelay =
-                `${index * 100}ms`;
+                `${index * 70}ms`;
 
 
             const statusInfo =
@@ -714,23 +444,28 @@ function displayReport(data) {
                     <div>
 
                         <div class="check-category">
+
                             ${escapeHTML(
                                 check.category
                             )}
+
                         </div>
 
 
                         <div class="check-name">
+
                             ${escapeHTML(
                                 check.name
                             )}
+
                         </div>
 
                     </div>
 
 
                     <div
-                        class="check-status ${statusInfo.className}">
+                        class="check-status ${statusInfo.className}"
+                    >
 
                         ${statusInfo.label}
 
@@ -773,139 +508,58 @@ function displayReport(data) {
 }
 
 
-/*
-==========================================================
-ERROR
-==========================================================
-*/
-
-function displayError(message) {
-
-    stopAnalysisAnimation();
-
-
-    statusBadge.textContent =
-        "ERROR";
-
-
-    statusBadge.className =
-        "status high";
-
-
-    checkedDate.textContent =
-        "The report could not be generated.";
-
-
-    passedCount.textContent =
-        "—";
-
-
-    failedCount.textContent =
-        "—";
-
-
-    notVerifiedCount.textContent =
-        "—";
-
-
-    assessmentTitle.textContent =
-        "Something went wrong";
-
-
-    assessmentMessage.textContent =
-        message ||
-        "The server could not complete the verification.";
-
-
-    checksContainer.innerHTML = `
-
-        <div class="check-card error-card">
-
-            <div class="check-top">
-
-                <div>
-
-                    <div class="check-category">
-                        SYSTEM
-                    </div>
-
-                    <div class="check-name">
-                        Verification failed
-                    </div>
-
-                </div>
-
-
-                <div class="check-status fail">
-                    ERROR
-                </div>
-
-            </div>
-
-
-            <p class="check-explanation">
-
-                ${escapeHTML(
-                    message ||
-                    "Unable to complete the verification."
-                )}
-
-            </p>
-
-        </div>
-
-    `;
-
-}
-
-
-/*
-==========================================================
-STATUS
-==========================================================
-*/
+/* =========================================================
+   STATUS
+========================================================= */
 
 function getStatusInfo(status) {
 
-    if (
-        status ===
-        "PASS"
-    ) {
+    if (status === "PASS") {
 
         return {
-            label: "PASS",
-            className: "pass"
+
+            label:
+                "PASS",
+
+            className:
+                "pass"
+
         };
 
     }
 
 
-    if (
-        status ===
-        "FAIL"
-    ) {
+    if (status === "FAIL") {
 
         return {
-            label: "FAIL",
-            className: "fail"
+
+            label:
+                "FAIL",
+
+            className:
+                "fail"
+
         };
 
     }
 
 
     return {
-        label: "NOT VERIFIED",
-        className: "not-verified"
+
+        label:
+            "NOT VERIFIED",
+
+        className:
+            "not-verified"
+
     };
 
 }
 
 
-/*
-==========================================================
-ASSESSMENT
-==========================================================
-*/
+/* =========================================================
+   ASSESSMENT
+========================================================= */
 
 function getAssessmentLabel(level) {
 
@@ -929,17 +583,7 @@ function getAssessmentLabel(level) {
     }
 
 
-    if (
-        level ===
-        "HIGH_CONCERN"
-    ) {
-
-        return "HIGH CONCERN";
-
-    }
-
-
-    return "REVIEW";
+    return "HIGH CONCERN";
 
 }
 
@@ -966,26 +610,14 @@ function getAssessmentClass(level) {
     }
 
 
-    if (
-        level ===
-        "HIGH_CONCERN"
-    ) {
-
-        return "high";
-
-    }
-
-
-    return "";
+    return "high";
 
 }
 
 
-/*
-==========================================================
-SECURITY
-==========================================================
-*/
+/* =========================================================
+   HTML SECURITY
+========================================================= */
 
 function escapeHTML(value) {
 

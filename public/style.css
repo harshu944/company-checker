@@ -128,44 +128,50 @@ body {
     opacity: 0.35;
 }
 
+.glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.18;
+    pointer-events: none;
+}
+
 .glow-one {
     width: 420px;
     height: 420px;
 
-    left: -120px;
+    left: -180px;
     top: 5%;
 
     background: #0878ff;
 
-    animation:
-        glowOne 12s ease-in-out infinite alternate;
+    animation: glowOne 14s ease-in-out infinite alternate;
 }
 
 .glow-two {
     width: 380px;
     height: 380px;
 
-    right: -100px;
-    top: 35%;
+    right: -180px;
+    top: 40%;
 
     background: #00bfff;
 
-    animation:
-        glowTwo 15s ease-in-out infinite alternate;
+    animation: glowTwo 17s ease-in-out infinite alternate;
 }
 
 .glow-three {
     width: 300px;
     height: 300px;
 
-    left: 35%;
-    bottom: -150px;
+    left: 40%;
+    bottom: -180px;
 
     background: #2455ff;
 
-    animation:
-        glowThree 13s ease-in-out infinite alternate;
+    animation: glowThree 15s ease-in-out infinite alternate;
 }
+
 
 @keyframes glowOne {
 
@@ -1184,343 +1190,64 @@ form button:hover .button-arrow {
 
 
 /* =========================================================
-   SCANNER
+   SCANNER — CONTAINED RADAR
    ========================================================= */
 
 .scanner-area {
     position: relative;
 
-    width: 280px;
-    height: 280px;
+    width: 260px;
+    height: 260px;
 
     margin: auto;
 
     border-radius: 50%;
 
+    overflow: hidden;
+
     background:
         radial-gradient(
-            circle,
-            rgba(17, 112, 215, 0.12),
-            rgba(4, 21, 41, 0.3) 60%,
-            transparent 70%
+            circle at center,
+            rgba(35, 150, 255, 0.16),
+            rgba(5, 25, 48, 0.65) 58%,
+            rgba(3, 15, 30, 0.9) 100%
         );
-}
 
-
-.scanner-ring {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    border:
-        1px solid
-        rgba(65, 166, 255, 0.2);
-
-    border-radius: 50%;
-}
-
-
-.ring-one {
-    width: 100%;
-    height: 100%;
-
-    animation:
-        ringPulse 3s ease-in-out infinite;
-}
-
-
-.ring-two {
-    width: 73%;
-    height: 73%;
-}
-
-
-.ring-three {
-    width: 45%;
-    height: 45%;
-}
-
-
-@keyframes ringPulse {
-
-    0%,
-    100% {
-        opacity: 0.4;
-
-        transform:
-            translate(-50%, -50%)
-            scale(0.98);
-    }
-
-    50% {
-        opacity: 1;
-
-        transform:
-            translate(-50%, -50%)
-            scale(1.03);
-    }
-}
-
-
-/* Radar cross */
-
-.radar-line {
-    position: absolute;
-
-    background:
-        rgba(70, 168, 255, 0.13);
-}
-
-
-.radar-horizontal {
-    width: 100%;
-    height: 1px;
-
-    left: 0;
-    top: 50%;
-}
-
-
-.radar-vertical {
-    height: 100%;
-    width: 1px;
-
-    top: 0;
-    left: 50%;
-}
-
-
-/* Rotating scanner */
-
-.scanner-sweep {
-    position: absolute;
-
-    width: 50%;
-    height: 2px;
-
-    left: 50%;
-    top: 50%;
-
-    transform-origin:
-        left center;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(72, 183, 255, 0.9),
-            transparent
-        );
+    border: 1px solid rgba(76, 177, 255, 0.3);
 
     box-shadow:
-        0 0 12px
-        rgba(44, 167, 255, 0.7);
-
-    animation:
-        scannerRotate 2.5s linear infinite;
+        0 0 35px rgba(0, 132, 255, 0.12),
+        inset 0 0 35px rgba(0, 132, 255, 0.08);
 }
 
 
-.scanner-sweep::after {
+/* ---------------------------------------------------------
+   RADAR GRID
+   --------------------------------------------------------- */
+
+.scanner-area::before {
     content: "";
 
     position: absolute;
 
-    right: -2px;
-    top: -2px;
-
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background: #68d4ff;
-
-    box-shadow:
-        0 0 12px
-        #36baff;
-}
-
-
-@keyframes scannerRotate {
-
-    from {
-        transform:
-            rotate(0deg);
-    }
-
-    to {
-        transform:
-            rotate(360deg);
-    }
-}
-
-
-/* Scanner core */
-
-.scanner-core {
-    position: absolute;
-
-    width: 35px;
-    height: 35px;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    border:
-        1px solid
-        rgba(90, 190, 255, 0.7);
-
-    border-radius: 50%;
+    inset: 0;
 
     background:
-        rgba(15, 87, 153, 0.25);
+        linear-gradient(
+            rgba(65, 170, 255, 0.12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(65, 170, 255, 0.12) 1px,
+            transparent 1px
+        );
 
-    box-shadow:
-        0 0 25px
-        rgba(25, 156, 255, 0.4);
+    background-size: 52px 52px;
+
+    opacity: 0.5;
 }
 
-
-.core-inner {
-    position: absolute;
-
-    width: 10px;
-    height: 10px;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    background: #7de0ff;
-
-    box-shadow:
-        0 0 18px
-        #35baff;
-
-    animation:
-        corePulse 1.3s ease-in-out infinite;
-}
-
-
-@keyframes corePulse {
-
-    0%,
-    100% {
-        transform:
-            translate(-50%, -50%)
-            scale(0.7);
-    }
-
-    50% {
-        transform:
-            translate(-50%, -50%)
-            scale(1.2);
-    }
-}
-
-
-/* Orbit dots */
-
-.orbit-dot {
-    position: absolute;
-
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: #5ccaff;
-
-    box-shadow:
-        0 0 15px
-        #39b9ff;
-}
-
-
-.orbit-one {
-    left: 22px;
-    top: 68px;
-
-    animation:
-        orbitOne 4s linear infinite;
-}
-
-
-.orbit-two {
-    right: 30px;
-    top: 100px;
-
-    animation:
-        orbitTwo 5s linear infinite;
-}
-
-
-.orbit-three {
-    left: 90px;
-    bottom: 20px;
-
-    animation:
-        orbitThree 6s linear infinite;
-}
-
-
-@keyframes orbitOne {
-
-    0% {
-        transform:
-            rotate(0deg)
-            translateX(20px);
-    }
-
-    100% {
-        transform:
-            rotate(360deg)
-            translateX(20px);
-    }
-}
-
-
-@keyframes orbitTwo {
-
-    0% {
-        transform:
-            rotate(0deg)
-            translateX(25px);
-    }
-
-    100% {
-        transform:
-            rotate(360deg)
-            translateX(25px);
-    }
-}
-
-
-@keyframes orbitThree {
-
-    0% {
-        transform:
-            rotate(0deg)
-            translateX(18px);
-    }
-
-    100% {
-        transform:
-            rotate(360deg)
-            translateX(18px);
-    }
-}
 
 
 /* =========================================================
@@ -2630,3 +2357,396 @@ footer span {
     }
 
 }
+
+/* =========================================================
+   COMPANY ANALYSIS SCANNER
+   Added without changing existing styles
+========================================================= */
+
+.analysis-animation {
+    width: 100%;
+
+    padding: 25px 10px 10px;
+
+    animation:
+        analysisAppear 0.4s ease both;
+}
+
+
+@keyframes analysisAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   SCANNER
+========================================================= */
+
+.scanner-box {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 25px 10px 30px;
+}
+
+
+.scanner-core {
+    position: relative;
+
+    width: 150px;
+
+    height: 150px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 18px;
+}
+
+
+/* outer rings */
+
+.scanner-ring {
+    position: absolute;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(59,130,246,0.25);
+
+    pointer-events: none;
+}
+
+
+.ring-one {
+    width: 145px;
+    height: 145px;
+
+    animation:
+        scannerPulse 2.2s ease-in-out infinite;
+}
+
+
+.ring-two {
+    width: 105px;
+    height: 105px;
+
+    border-color:
+        rgba(37,99,235,0.35);
+
+    animation:
+        scannerPulse 2.2s ease-in-out infinite 0.4s;
+}
+
+
+@keyframes scannerPulse {
+
+    0%,
+    100% {
+        transform: scale(0.92);
+
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: scale(1.05);
+
+        opacity: 1;
+    }
+
+}
+
+
+/* center */
+
+.scanner-dot {
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    background:
+        #2563eb;
+
+    box-shadow:
+        0 0 10px rgba(37,99,235,0.7),
+        0 0 25px rgba(37,99,235,0.45);
+
+    z-index: 3;
+
+    animation:
+        scannerDotPulse 1.2s ease-in-out infinite;
+}
+
+
+@keyframes scannerDotPulse {
+
+    0%,
+    100% {
+        transform: scale(0.85);
+
+        box-shadow:
+            0 0 8px rgba(37,99,235,0.6),
+            0 0 18px rgba(37,99,235,0.35);
+    }
+
+    50% {
+        transform: scale(1.15);
+
+        box-shadow:
+            0 0 15px rgba(37,99,235,0.9),
+            0 0 35px rgba(37,99,235,0.5);
+    }
+
+}
+
+
+/* rotating scanner line */
+
+.scanner-sweep {
+    position: absolute;
+
+    width: 65px;
+
+    height: 1px;
+
+    top: 50%;
+    left: 50%;
+
+    transform-origin: left center;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            rgba(37,99,235,0)
+        );
+
+    box-shadow:
+        0 0 8px rgba(37,99,235,0.6);
+
+    animation:
+        scannerRotate 1.8s linear infinite;
+
+    z-index: 2;
+}
+
+
+@keyframes scannerRotate {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+/* scanner text */
+
+.scanner-label {
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.15em;
+
+    color: #172033;
+
+    margin-bottom: 5px;
+}
+
+
+.scanner-subtitle {
+    color: #667085;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ANALYSIS STEPS
+========================================================= */
+
+.analysis-steps {
+    max-width: 500px;
+
+    margin:
+        0 auto;
+
+    border:
+        1px solid #eaecf0;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    background:
+        #f8fafc;
+}
+
+
+.analysis-step {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding:
+        13px
+        16px;
+
+    color: #98a2b3;
+
+    font-size: 13px;
+
+    border-bottom:
+        1px solid #eaecf0;
+
+    transition:
+        all 0.3s ease;
+}
+
+
+.analysis-step:last-child {
+    border-bottom: none;
+}
+
+
+.step-indicator {
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        #d0d5dd;
+
+    transition:
+        all 0.3s ease;
+}
+
+
+/* active step */
+
+.analysis-step.active {
+    color: #175cd3;
+
+    background:
+        rgba(59,130,246,0.06);
+
+    font-weight: 600;
+}
+
+
+.analysis-step.active .step-indicator {
+    background:
+        #3b82f6;
+
+    box-shadow:
+        0 0 0 4px rgba(59,130,246,0.12);
+
+    animation:
+        stepPulse 1s ease-in-out infinite;
+}
+
+
+@keyframes stepPulse {
+
+    0%,
+    100% {
+        transform: scale(0.8);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+}
+
+
+/* completed step */
+
+.analysis-step.completed {
+    color: #067647;
+}
+
+
+.analysis-step.completed .step-indicator {
+    background:
+        #12b76a;
+
+    box-shadow:
+        0 0 0 3px rgba(18,183,106,0.10);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .scanner-core {
+        width: 125px;
+
+        height: 125px;
+    }
+
+
+    .ring-one {
+        width: 120px;
+
+        height: 120px;
+    }
+
+
+    .ring-two {
+        width: 90px;
+
+        height: 90px;
+    }
+
+
+    .scanner-sweep {
+        width: 52px;
+    }
+
+
+    .analysis-step {
+        font-size: 12px;
+
+        padding:
+            12px
+            13px;
+    }
+
+}
+
