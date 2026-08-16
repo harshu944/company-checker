@@ -369,15 +369,66 @@ form.addEventListener(
 
 function displayReport(data) {
 
-    /*
-=========================================================
-WEBSITE PURPOSE
-=========================================================
-*/
+/* =========================================================
+   WEBSITE PURPOSE
+========================================================= */
 
-if (
-    data.websitePurpose
-) {
+function displayWebsitePurpose(data) {
+
+    const purpose = data.websitePurpose;
+
+    /*
+        No purpose result at all
+    */
+
+    if (!purpose) {
+
+        websitePurpose.classList.add(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Website purpose could not be determined.
+    */
+
+    if (
+        purpose.status === "NOT_VERIFIED" ||
+        !purpose.purpose ||
+        purpose.purpose === "Unable to determine"
+    ) {
+
+        websitePurpose.classList.remove(
+            "hidden"
+        );
+
+
+        purposeTitle.textContent =
+            "Unable to determine";
+
+
+        purposeDescription.textContent =
+            purpose.description ||
+            "There was not enough reliable public information to determine what this website is primarily used for.";
+
+
+        purposeSource.textContent =
+            purpose.source ||
+            "Website homepage";
+
+
+        return;
+
+    }
+
+
+    /*
+        A purpose was successfully detected.
+    */
 
     websitePurpose.classList.remove(
         "hidden"
@@ -385,30 +436,47 @@ if (
 
 
     purposeTitle.textContent =
-        data.websitePurpose.title;
+        purpose.purpose;
+
+
+    let description =
+        purpose.description ||
+        "The website appears to be primarily used for this type of activity.";
+
+
+    if (
+        purpose.confidence
+    ) {
+
+        description +=
+            ` Confidence: ${purpose.confidence}.`;
+
+    }
 
 
     purposeDescription.textContent =
-        data.websitePurpose.description;
+        description;
+
+
+    let sourceText =
+        purpose.source ||
+        "Website homepage";
+
+
+    if (
+        purpose.evidence
+    ) {
+
+        sourceText +=
+            ` | Detected signals: ${purpose.evidence}`;
+
+    }
 
 
     purposeSource.textContent =
-        data.websitePurpose.source;
+        sourceText;
 
 }
-else {
-
-    websitePurpose.classList.add(
-        "hidden"
-    );
-
-}
-
-    companyName.textContent =
-        data.company;
-    displayWebsitePurpose(
-    data
-);
 
 
     const date =
