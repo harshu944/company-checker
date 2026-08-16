@@ -2750,3 +2750,50 @@ footer span {
 
 }
 
+
+/* =========================================================
+   WEBSITE PURPOSE
+   ========================================================= */
+
+.website-purpose {
+    margin-bottom: 28px;
+    padding: 22px;
+
+    border: 1px solid rgba(84, 155, 215, 0.12);
+    border-radius: 15px;
+
+    background: rgba(11, 36, 65, 0.55);
+
+    animation: resultIn 0.5s ease both;
+}
+
+.website-purpose h3 {
+    margin-bottom: 8px;
+
+    font-size: 21px;
+    color: #eef6ff;
+}
+
+.website-purpose > p {
+    max-width: 800px;
+
+    color: #718da9;
+
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.purpose-source {
+    margin-top: 15px;
+    padding-top: 12px;
+
+    border-top: 1px solid rgba(90, 150, 200, 0.08);
+
+    color: #54718f;
+    font-size: 11px;
+}
+
+.purpose-source strong {
+    color: #6f91b2;
+}
+

@@ -1198,6 +1198,370 @@ async function checkWebsiteContent(domain) {
 
 }
 
+
+
+/*
+==========================================================
+WEBSITE PURPOSE CHECK
+==========================================================
+
+Determine the likely primary purpose of the website
+using publicly available page content.
+
+This is an evidence-based classification.
+It is NOT a guarantee about the company.
+*/
+
+async function checkWebsitePurpose(domain) {
+
+    const homepageURL =
+        `https://${domain}`;
+
+    try {
+
+        const response =
+            await fetch(
+                homepageURL,
+                {
+                    method: "GET",
+                    redirect: "follow",
+                    signal:
+                        AbortSignal.timeout(10000)
+                }
+            );
+
+
+        if (!response.ok) {
+
+            return {
+
+                status: "NOT_VERIFIED",
+
+                title: "Website purpose could not be determined",
+
+                description:
+                    "The homepage could not be inspected successfully.",
+
+                source:
+                    response.url ||
+                    homepageURL
+
+            };
+
+        }
+
+
+        const contentType =
+            response.headers
+                .get("content-type") || "";
+
+
+        if (
+            !contentType.includes("text/html")
+        ) {
+
+            return {
+
+                status: "NOT_VERIFIED",
+
+                title: "Website purpose could not be determined",
+
+                description:
+                    "The website did not return an HTML page that could be analyzed.",
+
+                source:
+                    response.url ||
+                    homepageURL
+
+            };
+
+        }
+
+
+        const html =
+            await response.text();
+
+
+        /*
+            Remove HTML tags and convert the page
+            into readable text.
+        */
+
+        const text =
+            html
+                .replace(
+                    /<script[\s\S]*?<\/script>/gi,
+                    " "
+                )
+                .replace(
+                    /<style[\s\S]*?<\/style>/gi,
+                    " "
+                )
+                .replace(
+                    /<[^>]+>/g,
+                    " "
+                )
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+                .toLowerCase();
+
+
+        /*
+        ======================================================
+        PURPOSE KEYWORDS
+        ======================================================
+        */
+
+        const purposes = [
+
+            {
+                title:
+                    "Business / Company Website",
+
+                description:
+                    "The website appears to primarily represent a business or company and provide information about its products, services, or organization.",
+
+                keywords: [
+                    "about us",
+                    "our company",
+                    "our services",
+                    "our products",
+                    "solutions",
+                    "business",
+                    "company"
+                ]
+            },
+
+
+            {
+                title:
+                    "E-commerce / Online Store",
+
+                description:
+                    "The website appears to primarily be used for selling products or services online.",
+
+                keywords: [
+                    "add to cart",
+                    "shopping cart",
+                    "buy now",
+                    "checkout",
+                    "shop now",
+                    "products",
+                    "order now",
+                    "price"
+                ]
+            },
+
+
+            {
+                title:
+                    "Job / Recruitment Website",
+
+                description:
+                    "The website appears to primarily provide employment, recruitment, or job-related information.",
+
+                keywords: [
+                    "careers",
+                    "career",
+                    "jobs",
+                    "job openings",
+                    "vacancies",
+                    "hiring",
+                    "join our team",
+                    "employment",
+                    "recruitment"
+                ]
+            },
+
+
+            {
+                title:
+                    "Educational / Learning Website",
+
+                description:
+                    "The website appears to primarily provide educational, training, or learning-related content.",
+
+                keywords: [
+                    "courses",
+                    "course",
+                    "learn",
+                    "learning",
+                    "education",
+                    "training",
+                    "students",
+                    "academy",
+                    "classes"
+                ]
+            },
+
+
+            {
+                title:
+                    "Technology / Software Website",
+
+                description:
+                    "The website appears to primarily provide software, technology, or technology-related services.",
+
+                keywords: [
+                    "software",
+                    "platform",
+                    "technology",
+                    "api",
+                    "developer",
+                    "cloud",
+                    "saas",
+                    "app"
+                ]
+            },
+
+
+            {
+                title:
+                    "Information / Content Website",
+
+                description:
+                    "The website appears to primarily provide informational, news, media, or educational content.",
+
+                keywords: [
+                    "news",
+                    "articles",
+                    "blog",
+                    "information",
+                    "guides",
+                    "resources",
+                    "stories"
+                ]
+            }
+
+        ];
+
+
+        /*
+        ======================================================
+        SCORE EACH PURPOSE
+        ======================================================
+        */
+
+        let bestPurpose = null;
+
+        let bestScore = 0;
+
+
+        for (
+            const purpose
+            of purposes
+        ) {
+
+            let score = 0;
+
+
+            for (
+                const keyword
+                of purpose.keywords
+            ) {
+
+                if (
+                    text.includes(
+                        keyword
+                    )
+                ) {
+
+                    score++;
+
+                }
+
+            }
+
+
+            if (
+                score > bestScore
+            ) {
+
+                bestScore =
+                    score;
+
+                bestPurpose =
+                    purpose;
+
+            }
+
+        }
+
+
+        /*
+        ======================================================
+        RESULT
+        ======================================================
+        */
+
+        if (
+            !bestPurpose ||
+            bestScore === 0
+        ) {
+
+            return {
+
+                status:
+                    "NOT_VERIFIED",
+
+                title:
+                    "Website purpose could not be determined",
+
+                description:
+                    "The available website content did not provide enough clear information to confidently determine its primary purpose.",
+
+                source:
+                    response.url ||
+                    homepageURL
+
+            };
+
+        }
+
+
+        return {
+
+            status:
+                "PASS",
+
+            title:
+                bestPurpose.title,
+
+            description:
+                bestPurpose.description,
+
+            source:
+                response.url ||
+                homepageURL
+
+        };
+
+    }
+
+    catch (error) {
+
+        return {
+
+            status:
+                "NOT_VERIFIED",
+
+            title:
+                "Website purpose could not be determined",
+
+            description:
+                "The website could not be inspected for enough public information to determine its primary purpose.",
+
+            source:
+                homepageURL
+
+        };
+
+    }
+
+}
+
 /*
 ==========================================================
 RDAP DOMAIN CHECK
@@ -1210,6 +1574,8 @@ We use RDAP.org as the first prototype endpoint.
 Later we can implement direct IANA bootstrap
 resolution for greater control and scalability.
 */
+
+
 
 
 async function checkRDAP(domain) {
@@ -1422,6 +1788,650 @@ async function checkRDAP(domain) {
 
 }
 
+
+
+/*
+==========================================================
+WEBSITE PURPOSE CHECK
+==========================================================
+
+Determines what the website appears to be primarily used for.
+
+This is an evidence-based classification.
+
+It does NOT claim that a company is legitimate or fraudulent.
+==========================================================
+*/
+
+async function checkWebsitePurpose(domain) {
+
+    const homepageURL = `https://${domain}`;
+
+    try {
+
+        const response = await fetch(
+            homepageURL,
+            {
+                method: "GET",
+                redirect: "follow",
+                signal: AbortSignal.timeout(10000)
+            }
+        );
+
+        if (!response.ok) {
+
+            return {
+                status: "NOT_VERIFIED",
+                purpose: "Unknown",
+                confidence: "Low",
+                description:
+                    "The website could not be inspected well enough to determine its primary purpose.",
+                source: homepageURL
+            };
+
+        }
+
+        const contentType =
+            response.headers.get("content-type") || "";
+
+        if (!contentType.includes("text/html")) {
+
+            return {
+                status: "NOT_VERIFIED",
+                purpose: "Unknown",
+                confidence: "Low",
+                description:
+                    "The website did not provide an HTML page that could be analyzed.",
+                source: homepageURL
+            };
+
+        }
+
+        const html = await response.text();
+
+
+        /*
+        ======================================================
+        EXTRACT WEBSITE INFORMATION
+        ======================================================
+        */
+
+        const titleMatch =
+            html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+
+        const descriptionMatch =
+            html.match(
+                /<meta[^>]+name=["']description["'][^>]+content=["']([^"']*)["']/i
+            );
+
+
+        const headings = [];
+
+        const headingPattern =
+            /<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi;
+
+        let headingMatch;
+
+        while (
+            (headingMatch =
+                headingPattern.exec(html)) !== null
+        ) {
+
+            headings.push(
+                headingMatch[1]
+            );
+
+        }
+
+
+        /*
+        ======================================================
+        REMOVE HTML
+        ======================================================
+        */
+
+        const visibleText =
+            html
+                .replace(
+                    /<script[\s\S]*?<\/script>/gi,
+                    " "
+                )
+                .replace(
+                    /<style[\s\S]*?<\/style>/gi,
+                    " "
+                )
+                .replace(
+                    /<noscript[\s\S]*?<\/noscript>/gi,
+                    " "
+                )
+                .replace(
+                    /<[^>]+>/g,
+                    " "
+                )
+                .replace(
+                    /&nbsp;/gi,
+                    " "
+                )
+                .replace(
+                    /&amp;/gi,
+                    "&"
+                )
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+                .trim();
+
+
+        const title =
+            titleMatch
+                ? titleMatch[1]
+                : "";
+
+        const description =
+            descriptionMatch
+                ? descriptionMatch[1]
+                : "";
+
+
+        /*
+        ======================================================
+        COMBINED PUBLIC INFORMATION
+        ======================================================
+        */
+
+        const evidenceText = (
+            title +
+            " " +
+            description +
+            " " +
+            headings.join(" ") +
+            " " +
+            visibleText
+        ).toLowerCase();
+
+
+        /*
+        ======================================================
+        PURPOSE CATEGORIES
+        ======================================================
+
+        We score categories instead of simply looking
+        for one keyword.
+
+        This makes the classification more reliable.
+        ======================================================
+        */
+
+        const categories = {
+
+            adult: {
+
+                purpose:
+                    "Adult content / entertainment",
+
+                description:
+                    "The website appears primarily focused on adult-oriented content or entertainment.",
+
+                keywords: [
+
+                    "porn",
+                    "pornography",
+                    "xxx",
+                    "adult video",
+                    "adult videos",
+                    "adult content",
+                    "sex video",
+                    "sex videos",
+                    "nude",
+                    "nudity",
+                    "18+",
+                    "nsfw",
+                    "onlyfans",
+                    "erotic",
+                    "cam girl",
+                    "camgirl",
+                    "escort"
+
+                ]
+
+            },
+
+
+            jobs: {
+
+                purpose:
+                    "Jobs / recruitment",
+
+                description:
+                    "The website appears primarily focused on jobs, recruitment, hiring, or employment opportunities.",
+
+                keywords: [
+
+                    "jobs",
+                    "job openings",
+                    "job opening",
+                    "careers",
+                    "career",
+                    "vacancies",
+                    "vacancy",
+                    "hiring",
+                    "recruitment",
+                    "recruiting",
+                    "employment",
+                    "apply now",
+                    "job seekers",
+                    "work with us"
+
+                ]
+
+            },
+
+
+            ecommerce: {
+
+                purpose:
+                    "E-commerce / shopping",
+
+                description:
+                    "The website appears primarily focused on selling products or services online.",
+
+                keywords: [
+
+                    "shop",
+                    "shopping",
+                    "buy now",
+                    "add to cart",
+                    "cart",
+                    "checkout",
+                    "products",
+                    "product",
+                    "store",
+                    "orders",
+                    "shipping",
+                    "delivery"
+
+                ]
+
+            },
+
+
+            news: {
+
+                purpose:
+                    "News / media",
+
+                description:
+                    "The website appears primarily focused on publishing news, articles, reports, or media content.",
+
+                keywords: [
+
+                    "news",
+                    "breaking news",
+                    "latest news",
+                    "headlines",
+                    "articles",
+                    "journal",
+                    "report",
+                    "reports",
+                    "press",
+                    "media"
+
+                ]
+
+            },
+
+
+            education: {
+
+                purpose:
+                    "Education / learning",
+
+                description:
+                    "The website appears primarily focused on education, courses, training, or learning resources.",
+
+                keywords: [
+
+                    "courses",
+                    "course",
+                    "education",
+                    "learning",
+                    "students",
+                    "student",
+                    "training",
+                    "lessons",
+                    "tutorials",
+                    "school",
+                    "university",
+                    "academy"
+
+                ]
+
+            },
+
+
+            technology: {
+
+                purpose:
+                    "Technology / software",
+
+                description:
+                    "The website appears primarily focused on technology, software, digital products, or technical services.",
+
+                keywords: [
+
+                    "software",
+                    "technology",
+                    "technology solutions",
+                    "app",
+                    "application",
+                    "developer",
+                    "developers",
+                    "cloud",
+                    "api",
+                    "artificial intelligence",
+                    "ai",
+                    "cybersecurity",
+                    "digital solutions"
+
+                ]
+
+            },
+
+
+            finance: {
+
+                purpose:
+                    "Finance / financial services",
+
+                description:
+                    "The website appears primarily focused on financial services, payments, investing, or related financial information.",
+
+                keywords: [
+
+                    "banking",
+                    "bank",
+                    "loan",
+                    "loans",
+                    "investment",
+                    "investments",
+                    "trading",
+                    "insurance",
+                    "finance",
+                    "financial services",
+                    "payment",
+                    "payments",
+                    "credit"
+
+                ]
+
+            },
+
+
+            entertainment: {
+
+                purpose:
+                    "Entertainment / media",
+
+                description:
+                    "The website appears primarily focused on entertainment, videos, music, movies, or related media.",
+
+                keywords: [
+
+                    "movies",
+                    "movie",
+                    "music",
+                    "songs",
+                    "videos",
+                    "video",
+                    "entertainment",
+                    "celebrity",
+                    "streaming",
+                    "shows",
+                    "tv"
+
+                ]
+
+            },
+
+
+            social: {
+
+                purpose:
+                    "Social / community",
+
+                description:
+                    "The website appears primarily focused on social interaction, community participation, or user-generated content.",
+
+                keywords: [
+
+                    "community",
+                    "forum",
+                    "forums",
+                    "members",
+                    "follow",
+                    "followers",
+                    "profile",
+                    "profiles",
+                    "social network",
+                    "discussion"
+
+                ]
+
+            },
+
+
+            business: {
+
+                purpose:
+                    "Business / company website",
+
+                description:
+                    "The website appears primarily focused on presenting a company, its services, products, or business information.",
+
+                keywords: [
+
+                    "about us",
+                    "our company",
+                    "our services",
+                    "our products",
+                    "business",
+                    "company",
+                    "corporate",
+                    "solutions",
+                    "services",
+                    "contact us",
+                    "clients",
+                    "customers"
+
+                ]
+
+            }
+
+        };
+
+
+        /*
+        ======================================================
+        SCORE EACH CATEGORY
+        ======================================================
+        */
+
+        const scores = [];
+
+
+        for (
+            const [key, category]
+            of Object.entries(categories)
+        ) {
+
+            let score = 0;
+
+            const matchedKeywords = [];
+
+
+            for (
+                const keyword
+                of category.keywords
+            ) {
+
+                if (
+                    evidenceText.includes(
+                        keyword.toLowerCase()
+                    )
+                ) {
+
+                    score++;
+
+                    matchedKeywords.push(
+                        keyword
+                    );
+
+                }
+
+            }
+
+
+            scores.push({
+
+                key,
+
+                score,
+
+                matchedKeywords
+
+            });
+
+        }
+
+
+        /*
+        ======================================================
+        SORT BY SCORE
+        ======================================================
+        */
+
+        scores.sort(
+            (a, b) =>
+                b.score - a.score
+        );
+
+
+        const best =
+            scores[0];
+
+
+        /*
+        ======================================================
+        NOT ENOUGH EVIDENCE
+        ======================================================
+        */
+
+        if (
+            !best ||
+            best.score === 0
+        ) {
+
+            return {
+
+                status:
+                    "NOT_VERIFIED",
+
+                purpose:
+                    "Unable to determine",
+
+                confidence:
+                    "Low",
+
+                description:
+                    "The available homepage information was not sufficient to reliably determine what the website is primarily used for.",
+
+                source:
+                    homepageURL
+
+            };
+
+        }
+
+
+        /*
+        ======================================================
+        CONFIDENCE
+        ======================================================
+        */
+
+        let confidence = "Medium";
+
+
+        if (
+            best.score >= 4
+        ) {
+
+            confidence = "High";
+
+        }
+
+
+        /*
+        ======================================================
+        BUILD EVIDENCE DESCRIPTION
+        ======================================================
+        */
+
+        const evidence =
+            best.matchedKeywords
+                .slice(0, 5)
+                .join(", ");
+
+
+        return {
+
+            status:
+                "PASS",
+
+            purpose:
+                categories[best.key].purpose,
+
+            confidence:
+                confidence,
+
+            description:
+                categories[best.key].description,
+
+            evidence:
+                evidence,
+
+            source:
+                homepageURL
+
+        };
+
+    }
+
+    catch (error) {
+
+        return {
+
+            status:
+                "NOT_VERIFIED",
+
+            purpose:
+                "Unable to determine",
+
+            confidence:
+                "Low",
+
+            description:
+                "The website could not be inspected reliably enough to determine its primary purpose.",
+
+            source:
+                homepageURL
+
+        };
+
+    }
+
+}
 
 /*
 ==========================================================
@@ -1681,6 +2691,9 @@ app.post(
         const contentResult =
             await checkWebsiteContent(domain);
 
+        const purposeResult =
+            await checkWebsitePurpose(domain);
+
 
         /*
         ======================================================
@@ -1779,7 +2792,31 @@ app.post(
                 source:
                     rdapResult.source
 
-            }
+            },
+
+        {
+    id:
+        "website_purpose",
+
+    category:
+        "Website Analysis",
+
+    name:
+        "Website purpose",
+
+    status:
+        purposeResult.status,
+
+    explanation:
+        purposeResult.description,
+
+    source:
+        purposeResult.source,
+
+    purposeTitle:
+        purposeResult.title
+
+},
 
         ];
 
@@ -2182,36 +3219,55 @@ if (
         FINAL RESPONSE
         ======================================================
         */
-
         res.json({
 
-            company:
-                input,
+    
+    company: 
+        input, 
 
-            domain:
-                domain,
+    domain: 
+        domain, 
 
-            checkedAt:
-                new Date().toISOString(),
+    checkedAt: 
+        new Date().toISOString(),
 
-            summary: {
+    websitePurpose:
+        purposeResult,
 
-                total:
-                    checks.length,
+    summary: {
 
-                passed,
+        total:
+            checks.length,
 
-                failed,
+        passed,
 
-                notVerified
+        failed,
 
-            },
+        notVerified
 
-            checks,
+    },
 
-            assessment
+    checks,
 
-        });
+    websitePurpose: {
+
+        status:
+            purposeResult.status,
+
+        title:
+            purposeResult.title,
+
+        description:
+            purposeResult.description,
+
+        source:
+            purposeResult.source
+
+    },
+
+    assessment
+
+});
 
     }
 );

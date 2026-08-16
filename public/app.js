@@ -37,6 +37,18 @@ const checksContainer =
 const analysisAnimation =
     document.getElementById("analysisAnimation");
 
+const websitePurpose =
+    document.getElementById("websitePurpose");
+
+const purposeTitle =
+    document.getElementById("purposeTitle");
+
+const purposeDescription =
+    document.getElementById("purposeDescription");
+
+const purposeSource =
+    document.getElementById("purposeSource");
+
 
 /* =========================================================
    ANALYSIS STATE
@@ -357,8 +369,46 @@ form.addEventListener(
 
 function displayReport(data) {
 
+    /*
+=========================================================
+WEBSITE PURPOSE
+=========================================================
+*/
+
+if (
+    data.websitePurpose
+) {
+
+    websitePurpose.classList.remove(
+        "hidden"
+    );
+
+
+    purposeTitle.textContent =
+        data.websitePurpose.title;
+
+
+    purposeDescription.textContent =
+        data.websitePurpose.description;
+
+
+    purposeSource.textContent =
+        data.websitePurpose.source;
+
+}
+else {
+
+    websitePurpose.classList.add(
+        "hidden"
+    );
+
+}
+
     companyName.textContent =
         data.company;
+    displayWebsitePurpose(
+    data
+);
 
 
     const date =
@@ -507,6 +557,78 @@ function displayReport(data) {
 
 }
 
+
+/* =========================================================
+   WEBSITE PURPOSE
+========================================================= */
+
+function displayWebsitePurpose(data) {
+
+    if (
+        !data.websitePurpose
+    ) {
+
+        websitePurpose.classList.add(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    const purpose =
+        data.websitePurpose;
+
+
+    websitePurpose.classList.remove(
+        "hidden"
+    );
+
+
+    purposeTitle.textContent =
+        purpose.purpose ||
+        "Unable to determine";
+
+
+    let description =
+        purpose.description ||
+        "The available public information was not sufficient to determine the website's primary purpose.";
+
+
+    if (
+        purpose.confidence
+    ) {
+
+        description +=
+            ` Confidence: ${purpose.confidence}.`;
+
+    }
+
+
+    purposeDescription.textContent =
+        description;
+
+
+    let sourceText =
+        purpose.source ||
+        "Website homepage";
+
+
+    if (
+        purpose.evidence
+    ) {
+
+        sourceText +=
+            ` | Detected signals: ${purpose.evidence}`;
+
+    }
+
+
+    purposeSource.textContent =
+        sourceText;
+
+}
 
 /* =========================================================
    STATUS
