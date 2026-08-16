@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -12,46 +11,70 @@
 
     <meta
         name="description"
-        content="Company Checker helps you inspect publicly available company and website information before you trust it."
+        content="Company Checker — verify publicly available company and domain information."
     >
 
     <title>Company Checker</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 
 <body>
 
-    <!-- BACKGROUND -->
+    <!-- =====================================================
+         BACKGROUND
+         ===================================================== -->
 
-    <div class="background-grid"></div>
+    <div class="background" aria-hidden="true">
 
+        <div class="grid"></div>
+
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
+        <div class="glow glow-three"></div>
+
+        <div class="particles">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
 
     <main class="container">
 
 
-        <!-- ==========================================
+        <!-- =================================================
              NAVBAR
-        =========================================== -->
+             ================================================= -->
 
-        <header class="navbar">
+        <nav class="navbar">
 
             <div class="brand">
 
-                <div class="brand-mark">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div class="brand-icon">
+
+                    <div class="brand-lens"></div>
+                    <div class="brand-handle"></div>
+
                 </div>
 
-                <span class="brand-name">
-                    Company Checker
-                </span>
+                <span>Company Checker</span>
 
             </div>
 
@@ -60,25 +83,25 @@
 
                 <span class="online-dot"></span>
 
-                Verification engine online
+                Verification System Online
 
             </div>
 
-        </header>
+        </nav>
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              HERO
-        =========================================== -->
+             ================================================= -->
 
         <section class="hero">
 
-            <div class="hero-eyebrow">
+            <div class="hero-label">
 
-                <span class="eyebrow-dot"></span>
+                <span class="hero-label-dot"></span>
 
-                DIGITAL COMPANY VERIFICATION
+                PUBLIC DATA VERIFICATION
 
             </div>
 
@@ -93,8 +116,9 @@
 
             <p>
 
-                Check a company's public digital footprint before
-                you trust it, apply for a job, or do business with it.
+                Check publicly available information about a company
+                before you trust it, apply for a job, or do business
+                with it.
 
             </p>
 
@@ -102,59 +126,72 @@
 
 
 
-        <!-- ==========================================
-             SEARCH
-        =========================================== -->
+        <!-- =================================================
+             SEARCH PANEL
+             ================================================= -->
 
         <section class="search-card">
 
-            <div class="search-heading">
+            <div class="search-top">
 
                 <div>
 
                     <div class="search-label">
-                        START A CHECK
+                        COMPANY VERIFICATION
                     </div>
 
                     <h2>
-                        Verify a company
+                        Check a company
                     </h2>
+
+                    <p>
+                        Enter a company website or domain to begin.
+                    </p>
 
                 </div>
 
 
-                <div class="search-icon">
-                    ↗
+                <div class="security-chip">
+
+                    <span></span>
+
+                    PUBLIC DATA ONLY
+
                 </div>
 
             </div>
+
 
 
             <form id="companyForm">
 
                 <div class="input-wrapper">
 
-                    <span class="input-icon">
-                        ⌕
-                    </span>
+                    <div class="input-icon">
+
+                        <div class="mini-glass"></div>
+
+                    </div>
+
 
                     <input
                         id="companyInput"
                         type="text"
-                        placeholder="Enter company name or website"
+                        placeholder="example.com"
                         autocomplete="off"
+                        spellcheck="false"
                     >
 
                 </div>
 
 
                 <button
+                    id="checkButton"
                     type="submit"
-                    class="check-button"
                 >
 
-                    <span>
-                        Check company
+                    <span class="button-text">
+                        Check Company
                     </span>
 
                     <span class="button-arrow">
@@ -166,35 +203,161 @@
             </form>
 
 
-            <div class="search-footer">
+            <div class="search-note">
 
-                <span>
-                    Try: microsoft.com
-                </span>
+                <span class="lock-icon"></span>
 
-                <span class="search-divider"></span>
-
-                <span>
-                    No account required
-                </span>
+                We only use publicly available information.
+                Results are not a guarantee of legitimacy.
 
             </div>
-
-
-            <p class="disclaimer">
-
-                Results are based on publicly available information
-                and are not a guarantee that a company is legitimate.
-
-            </p>
 
         </section>
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
+             ANALYZING PANEL
+             ================================================= -->
+
+        <section
+            id="analyzingPanel"
+            class="analyzing-panel hidden"
+        >
+
+            <div class="scanner-area">
+
+
+                <!-- Scanner rings -->
+
+                <div class="scanner-ring ring-one"></div>
+
+                <div class="scanner-ring ring-two"></div>
+
+                <div class="scanner-ring ring-three"></div>
+
+
+                <!-- Radar lines -->
+
+                <div class="radar-line radar-horizontal"></div>
+
+                <div class="radar-line radar-vertical"></div>
+
+
+                <!-- Rotating scanner -->
+
+                <div class="scanner-sweep"></div>
+
+
+                <!-- Center -->
+
+                <div class="scanner-core">
+
+                    <div class="core-inner"></div>
+
+                </div>
+
+
+                <!-- Orbit dots -->
+
+                <div class="orbit-dot orbit-one"></div>
+
+                <div class="orbit-dot orbit-two"></div>
+
+                <div class="orbit-dot orbit-three"></div>
+
+            </div>
+
+
+            <div class="analysis-content">
+
+                <div class="analysis-label">
+
+                    ANALYSIS IN PROGRESS
+
+                </div>
+
+
+                <h2 id="analysisTitle">
+                    Preparing verification...
+                </h2>
+
+
+                <p id="analysisDescription">
+                    Establishing a secure connection to the verification system.
+                </p>
+
+
+                <div class="analysis-progress">
+
+                    <div
+                        id="analysisProgressBar"
+                        class="analysis-progress-bar"
+                    ></div>
+
+                </div>
+
+
+                <div class="analysis-steps">
+
+                    <div
+                        id="stepDomain"
+                        class="analysis-step"
+                    >
+
+                        <span class="step-dot"></span>
+
+                        Domain resolution
+
+                    </div>
+
+
+                    <div
+                        id="stepWebsite"
+                        class="analysis-step"
+                    >
+
+                        <span class="step-dot"></span>
+
+                        Website availability
+
+                    </div>
+
+
+                    <div
+                        id="stepHTTPS"
+                        class="analysis-step"
+                    >
+
+                        <span class="step-dot"></span>
+
+                        HTTPS security
+
+                    </div>
+
+
+                    <div
+                        id="stepRDAP"
+                        class="analysis-step"
+                    >
+
+                        <span class="step-dot"></span>
+
+                        Domain registration
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
              RESULT
-        =========================================== -->
+             ================================================= -->
 
         <section
             id="result"
@@ -202,143 +365,7 @@
         >
 
 
-            <!-- ======================================
-                 SCANNING PANEL
-            ======================================= -->
-
-            <div
-                id="scanPanel"
-                class="scan-panel"
-            >
-
-                <div class="scan-visual">
-
-                    <div class="scanner-ring ring-one"></div>
-                    <div class="scanner-ring ring-two"></div>
-
-                    <div class="robot">
-
-                        <div class="robot-antenna"></div>
-
-                        <div class="robot-head">
-
-                            <div class="robot-eyes">
-
-                                <span></span>
-                                <span></span>
-
-                            </div>
-
-                            <div class="robot-mouth"></div>
-
-                        </div>
-
-                        <div class="robot-body">
-
-                            <div class="robot-screen"></div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="scan-beam"></div>
-
-                </div>
-
-
-                <div class="scan-content">
-
-                    <div class="scan-label">
-                        LIVE VERIFICATION
-                    </div>
-
-                    <h2 id="scanStage">
-                        Connecting to verification engine...
-                    </h2>
-
-                    <p id="scanDescription">
-                        Preparing checks.
-                    </p>
-
-
-                    <div class="progress-track">
-
-                        <div
-                            id="scanProgress"
-                            class="progress-bar"
-                        ></div>
-
-                    </div>
-
-
-                    <div class="scan-steps">
-
-                        <div
-                            id="scanStep1"
-                            class="scan-step active"
-                        >
-
-                            <span class="step-icon">
-                                01
-                            </span>
-
-                            Domain
-
-                        </div>
-
-
-                        <div
-                            id="scanStep2"
-                            class="scan-step"
-                        >
-
-                            <span class="step-icon">
-                                02
-                            </span>
-
-                            Website
-
-                        </div>
-
-
-                        <div
-                            id="scanStep3"
-                            class="scan-step"
-                        >
-
-                            <span class="step-icon">
-                                03
-                            </span>
-
-                            Company
-
-                        </div>
-
-
-                        <div
-                            id="scanStep4"
-                            class="scan-step"
-                        >
-
-                            <span class="step-icon">
-                                04
-                            </span>
-
-                            Legal
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ======================================
-                 COMPANY HEADER
-            ======================================= -->
+            <!-- Result header -->
 
             <div class="result-header">
 
@@ -370,11 +397,10 @@
 
 
 
-            <!-- ======================================
-                 SUMMARY
-            ======================================= -->
+            <!-- Summary -->
 
             <div class="summary">
+
 
                 <div class="summary-card passed">
 
@@ -392,12 +418,13 @@
                         </span>
 
                         <span class="summary-label">
-                            Passed checks
+                            Passed
                         </span>
 
                     </div>
 
                 </div>
+
 
 
                 <div class="summary-card failed">
@@ -416,12 +443,13 @@
                         </span>
 
                         <span class="summary-label">
-                            Failed checks
+                            Failed
                         </span>
 
                     </div>
 
                 </div>
+
 
 
                 <div class="summary-card not-verified">
@@ -440,7 +468,7 @@
                         </span>
 
                         <span class="summary-label">
-                            Not verified
+                            Not Verified
                         </span>
 
                     </div>
@@ -451,39 +479,35 @@
 
 
 
-            <!-- ======================================
-                 ASSESSMENT
-            ======================================= -->
+            <!-- Assessment -->
 
             <div class="assessment">
 
-                <div class="assessment-mark">
-                    !
-                </div>
-
-                <div class="assessment-content">
+                <div class="assessment-top">
 
                     <div class="small-label">
                         OVERALL ASSESSMENT
                     </div>
 
-                    <h3 id="assessmentTitle">
-                        Analyzing...
-                    </h3>
-
-                    <p id="assessmentMessage">
-                        Please wait while the report is generated.
-                    </p>
+                    <div class="assessment-line"></div>
 
                 </div>
+
+
+                <h3 id="assessmentTitle">
+                    Analyzing...
+                </h3>
+
+
+                <p id="assessmentMessage">
+                    Please wait while the report is generated.
+                </p>
 
             </div>
 
 
 
-            <!-- ======================================
-                 CHECKS
-            ======================================= -->
+            <!-- Checks -->
 
             <div class="checks-section">
 
@@ -496,12 +520,12 @@
                         </div>
 
                         <h3>
-                            What we found
+                            Verification Checks
                         </h3>
 
                         <p>
-                            Every result below is based on a specific
-                            technical or publicly available signal.
+                            See exactly what was checked and what remains
+                            unverified.
                         </p>
 
                     </div>
@@ -511,7 +535,7 @@
 
                 <div id="checksContainer">
 
-                    <!-- JavaScript inserts checks -->
+                    <!-- JavaScript inserts checks here -->
 
                 </div>
 
@@ -519,67 +543,61 @@
 
 
 
-            <!-- ======================================
-                 TRANSPARENCY
-            ======================================= -->
+            <!-- Transparency -->
 
             <div class="transparency">
 
                 <div class="transparency-icon">
-                    i
+                    !
                 </div>
+
 
                 <div>
 
                     <h3>
-                        Use this report as evidence, not a verdict.
+                        Important
                     </h3>
 
                     <p>
-
-                        A PASS means the available check produced a
-                        positive result. NOT VERIFIED means there was
-                        not enough independent information to confirm it.
-
+                        A "PASS" means the available check produced a
+                        positive result. "NOT VERIFIED" means we do not
+                        currently have enough independent information to
+                        make a conclusion.
                     </p>
 
                     <p>
-
-                        A positive report does not guarantee that a
-                        company is legitimate.
-
+                        This report should be used as a starting point
+                        for your own verification, not as a guarantee
+                        of safety.
                     </p>
 
                 </div>
 
             </div>
-
 
         </section>
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              FOOTER
-        =========================================== -->
+             ================================================= -->
 
         <footer>
-
-            <div class="footer-brand">
-                Company Checker
-            </div>
 
             <div class="footer-line"></div>
 
             <p>
-                Transparency before trust.
+                Company Checker
             </p>
+
+            <span>
+                Transparency before trust.
+            </span>
 
         </footer>
 
-
     </main>
-
 
 
     <script src="app.js"></script>
