@@ -4,7 +4,7 @@ const dns = require("dns").promises;
 const net = require("net");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -3282,6 +3282,7 @@ SERVER
 
 app.listen(
     PORT,
+    "0.0.0.0",
     () => {
 
         console.log("");
