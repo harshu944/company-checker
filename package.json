@@ -1,0 +1,13 @@
+{
+  "name": "company-checker",
+  "version": "0.1.0",
+  "description": "Public information based company background checker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

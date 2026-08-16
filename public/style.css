@@ -1,0 +1,2466 @@
+/* =========================================================
+   COMPANY CHECKER
+   Main stylesheet
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(59, 130, 246, 0.10),
+            transparent 40%
+        ),
+        #f5f7fb;
+
+    color: #172033;
+
+    min-height: 100vh;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   BACKGROUND DETAIL
+   ========================================================= */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(23, 32, 51, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(23, 32, 51, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 40px 40px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 75%
+        );
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.container {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    max-width: 1080px;
+
+    margin: 0 auto;
+
+    padding:
+        55px
+        20px
+        35px;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+    text-align: center;
+
+    margin-bottom: 38px;
+
+    animation:
+        heroEnter
+        0.7s
+        ease
+        both;
+}
+
+
+.logo {
+    width: 68px;
+    height: 68px;
+
+    margin:
+        0
+        auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #172033,
+            #2c3e60
+        );
+
+    color: white;
+
+    border-radius: 20px;
+
+    font-size: 30px;
+
+    box-shadow:
+        0 15px 35px
+        rgba(23, 32, 51, 0.18);
+
+    position: relative;
+}
+
+
+.logo::after {
+    content: "";
+
+    position: absolute;
+
+    inset: -5px;
+
+    border-radius: 24px;
+
+    border:
+        1px solid
+        rgba(59, 130, 246, 0.25);
+
+    animation:
+        logoPulse
+        3s
+        ease-in-out
+        infinite;
+}
+
+
+.hero h1 {
+    font-size: clamp(
+        34px,
+        5vw,
+        48px
+    );
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+
+    margin-bottom: 13px;
+
+    color: #101828;
+}
+
+
+.hero p {
+    max-width: 690px;
+
+    margin: auto;
+
+    color: #667085;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SEARCH CARD
+   ========================================================= */
+
+.search-card {
+    background:
+        rgba(255, 255, 255, 0.92);
+
+    backdrop-filter:
+        blur(12px);
+
+    border:
+        1px solid
+        rgba(208, 213, 221, 0.7);
+
+    border-radius: 22px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 20px 55px
+        rgba(20, 30, 50, 0.08);
+
+    margin-bottom: 28px;
+
+    animation:
+        cardEnter
+        0.7s
+        0.1s
+        ease
+        both;
+}
+
+
+.search-card h2 {
+    font-size: 24px;
+
+    letter-spacing: -0.4px;
+
+    margin-bottom: 5px;
+}
+
+
+.subtitle {
+    color: #667085;
+
+    margin-bottom: 20px;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+form {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+form input {
+    flex: 1;
+
+    min-width: 0;
+
+    height: 54px;
+
+    padding:
+        0
+        17px;
+
+    border:
+        1px solid
+        #d0d5dd;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+form input::placeholder {
+    color: #98a2b3;
+}
+
+
+form input:hover {
+    border-color: #98a2b3;
+}
+
+
+form input:focus {
+    border-color: #3b82f6;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(59, 130, 246, 0.10);
+
+    transform: translateY(-1px);
+}
+
+
+form button {
+    height: 54px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    padding:
+        0
+        24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #172033,
+            #263858
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 8px 20px
+        rgba(23, 32, 51, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+form button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px
+        rgba(23, 32, 51, 0.24);
+}
+
+
+form button:active {
+    transform: translateY(0);
+}
+
+
+.disclaimer {
+    margin-top: 14px;
+
+    font-size: 12px;
+
+    color: #98a2b3;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   RESULT CONTAINER
+   ========================================================= */
+
+.result {
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    backdrop-filter:
+        blur(12px);
+
+    border:
+        1px solid
+        rgba(208, 213, 221, 0.75);
+
+    border-radius: 22px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 20px 55px
+        rgba(20, 30, 50, 0.08);
+
+    animation:
+        resultEnter
+        0.55s
+        ease
+        both;
+}
+
+
+.hidden {
+    display: none;
+}
+
+
+/* =========================================================
+   RESULT HEADER
+   ========================================================= */
+
+.result-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding-bottom: 25px;
+
+    border-bottom:
+        1px solid
+        #eaecf0;
+}
+
+
+.small-label {
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.11em;
+
+    color: #667085;
+
+    margin-bottom: 7px;
+}
+
+
+.result-header h2 {
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.7px;
+
+    word-break: break-word;
+}
+
+
+#checkedDate {
+    color: #98a2b3;
+
+    font-size: 13px;
+
+    margin-top: 6px;
+}
+
+
+/* =========================================================
+   STATUS BADGE
+   ========================================================= */
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        9px
+        14px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.03em;
+
+    white-space: nowrap;
+
+    background: #eaecf0;
+
+    color: #344054;
+}
+
+
+.status.low {
+    background: #dcfae6;
+
+    color: #067647;
+}
+
+
+.status.caution {
+    background: #fef0c7;
+
+    color: #b54708;
+}
+
+
+.status.high {
+    background: #fee4e2;
+
+    color: #b42318;
+}
+
+
+/* =========================================================
+   ANALYZING STATUS
+   ========================================================= */
+
+.status.analyzing {
+    background:
+        #eaf2ff;
+
+    color:
+        #175cd3;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.status.analyzing::after {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    margin-left: 7px;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+    box-shadow:
+        0 0 0
+        rgba(59, 130, 246, 0.5);
+
+    animation:
+        statusPulse
+        1.3s
+        infinite;
+}
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+
+    margin:
+        25px
+        0;
+}
+
+
+.summary-card {
+    position: relative;
+
+    padding: 19px;
+
+    border:
+        1px solid
+        #eaecf0;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f8fafc
+        );
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.summary-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(20, 30, 50, 0.07);
+}
+
+
+.summary-card::after {
+    content: "";
+
+    position: absolute;
+
+    right: -25px;
+    bottom: -35px;
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 50%;
+
+    opacity: 0.08;
+}
+
+
+.summary-number {
+    font-size: 30px;
+
+    font-weight: 800;
+
+    line-height: 1.1;
+}
+
+
+.summary-label {
+    font-size: 13px;
+
+    color: #667085;
+}
+
+
+.summary-card.passed {
+    border-left:
+        4px solid
+        #12b76a;
+}
+
+
+.summary-card.passed::after {
+    background: #12b76a;
+}
+
+
+.summary-card.failed {
+    border-left:
+        4px solid
+        #f04438;
+}
+
+
+.summary-card.failed::after {
+    background: #f04438;
+}
+
+
+.summary-card.not-verified {
+    border-left:
+        4px solid
+        #f79009;
+}
+
+
+.summary-card.not-verified::after {
+    background: #f79009;
+}
+
+
+/* =========================================================
+   ASSESSMENT
+   ========================================================= */
+
+.assessment {
+    position: relative;
+
+    padding: 24px;
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #f1f5f9
+        );
+
+    border:
+        1px solid
+        #eaecf0;
+
+    margin-bottom: 30px;
+
+    overflow: hidden;
+}
+
+
+.assessment::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #3b82f6,
+            #6366f1
+        );
+}
+
+
+.assessment h3 {
+    font-size: 21px;
+
+    letter-spacing: -0.3px;
+
+    margin-bottom: 7px;
+}
+
+
+.assessment p {
+    color: #667085;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   CHECKS SECTION
+   ========================================================= */
+
+.checks-section {
+    margin-bottom: 30px;
+}
+
+
+.section-heading {
+    margin-bottom: 18px;
+}
+
+
+.section-heading h3 {
+    font-size: 21px;
+
+    letter-spacing: -0.3px;
+
+    margin-bottom: 4px;
+}
+
+
+.section-heading p {
+    color: #667085;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   CHECK CARD
+   ========================================================= */
+
+.check-card {
+    border:
+        1px solid
+        #eaecf0;
+
+    border-radius: 15px;
+
+    padding: 19px;
+
+    margin-bottom: 11px;
+
+    background: #ffffff;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.check-card:hover {
+    transform: translateY(-2px);
+
+    border-color:
+        #d0d5dd;
+
+    box-shadow:
+        0 10px 25px
+        rgba(20, 30, 50, 0.06);
+}
+
+
+/* =========================================================
+   RESULT CARD ANIMATION
+   ========================================================= */
+
+.result-card {
+    opacity: 0;
+
+    animation:
+        checkEnter
+        0.45s
+        ease
+        forwards;
+}
+
+
+/* =========================================================
+   CHECK TOP
+   ========================================================= */
+
+.check-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.check-category {
+    color: #667085;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 4px;
+}
+
+
+.check-name {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+/* =========================================================
+   CHECK STATUS
+   ========================================================= */
+
+.check-status {
+    padding:
+        6px
+        10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.02em;
+
+    white-space: nowrap;
+}
+
+
+.check-status.pass {
+    background: #dcfae6;
+
+    color: #067647;
+}
+
+
+.check-status.fail {
+    background: #fee4e2;
+
+    color: #b42318;
+}
+
+
+.check-status.not-verified {
+    background: #fef0c7;
+
+    color: #b54708;
+}
+
+
+/* =========================================================
+   CHECK EXPLANATION
+   ========================================================= */
+
+.check-explanation {
+    margin-top: 11px;
+
+    color: #475467;
+
+    line-height: 1.6;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   CHECK SOURCE
+   ========================================================= */
+
+.check-source {
+    margin-top: 12px;
+
+    padding-top: 11px;
+
+    border-top:
+        1px solid
+        #f2f4f7;
+
+    color: #667085;
+
+    font-size: 11px;
+
+    word-break: break-word;
+}
+
+
+.check-source strong {
+    color: #475467;
+}
+
+
+/* =========================================================
+   ANALYSIS BOX
+   ========================================================= */
+
+.analysis-box {
+    display: flex;
+
+    align-items: center;
+
+    gap: 24px;
+
+    padding: 27px;
+
+    border:
+        1px solid
+        #dbeafe;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #eef6ff
+        );
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+.analysis-box::before {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    right: -120px;
+    top: -120px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(59, 130, 246, 0.12);
+
+    animation:
+        analysisOrbit
+        5s
+        linear
+        infinite;
+}
+
+
+/* =========================================================
+   SCANNER
+   ========================================================= */
+
+.analysis-animation {
+    flex-shrink: 0;
+
+    width: 76px;
+    height: 76px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+.scanner {
+    position: relative;
+
+    width: 64px;
+    height: 64px;
+
+    border:
+        2px solid
+        #bfdbfe;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.12),
+            transparent 65%
+        );
+
+    box-shadow:
+        inset 0 0 20px
+        rgba(59, 130, 246, 0.08),
+        0 0 25px
+        rgba(59, 130, 246, 0.10);
+
+    animation:
+        scannerRotate
+        3s
+        linear
+        infinite;
+}
+
+
+.scanner::before,
+.scanner::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    background:
+        #bfdbfe;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+}
+
+
+.scanner::before {
+    width: 100%;
+
+    height: 1px;
+}
+
+
+.scanner::after {
+    width: 1px;
+
+    height: 100%;
+}
+
+
+.scanner-line {
+    position: absolute;
+
+    width: 50%;
+
+    height: 2px;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform-origin:
+        left center;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            transparent
+        );
+
+    animation:
+        scannerSweep
+        2s
+        linear
+        infinite;
+}
+
+
+.scanner-dot {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    border-radius: 50%;
+
+    background:
+        #3b82f6;
+
+    box-shadow:
+        0 0 10px
+        rgba(59, 130, 246, 0.7);
+}
+
+
+/* =========================================================
+   ANALYSIS CONTENT
+   ========================================================= */
+
+.analysis-content {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.analysis-content strong {
+    display: block;
+
+    font-size: 16px;
+
+    color: #172033;
+
+    margin-bottom: 4px;
+}
+
+
+.analysis-content p {
+    color: #667085;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    min-height: 20px;
+}
+
+
+/* =========================================================
+   ANALYSIS PROGRESS
+   ========================================================= */
+
+.analysis-progress {
+    width: 100%;
+
+    height: 5px;
+
+    margin-top: 14px;
+
+    border-radius: 999px;
+
+    background:
+        #dbeafe;
+
+    overflow: hidden;
+}
+
+
+.analysis-progress-bar {
+    width: 5%;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            #6366f1
+        );
+
+    transition:
+        width 0.5s ease;
+}
+
+
+/* =========================================================
+   ERROR CARD
+   ========================================================= */
+
+.error-card {
+    border-color:
+        #fecaca;
+
+    background:
+        #fffafa;
+}
+
+
+/* =========================================================
+   TRANSPARENCY
+   ========================================================= */
+
+.transparency {
+    background:
+        #fff7ed;
+
+    border:
+        1px solid
+        #fed7aa;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    margin-top: 20px;
+}
+
+
+.transparency h3 {
+    font-size: 15px;
+
+    margin-bottom: 9px;
+}
+
+
+.transparency p {
+    color: #7c2d12;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    margin-bottom: 8px;
+}
+
+
+.transparency p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    text-align: center;
+
+    padding:
+        30px
+        0
+        10px;
+
+    color: #98a2b3;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes heroEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+@keyframes cardEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+@keyframes resultEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+@keyframes checkEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+@keyframes logoPulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+
+        transform: scale(1.04);
+    }
+
+}
+
+
+@keyframes statusPulse {
+
+    0% {
+        box-shadow:
+            0 0 0
+            rgba(59, 130, 246, 0.5);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 5px
+            rgba(59, 130, 246, 0);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0
+            rgba(59, 130, 246, 0);
+    }
+
+}
+
+
+@keyframes scannerRotate {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+@keyframes scannerSweep {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+@keyframes analysisOrbit {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .container {
+        padding:
+            32px
+            14px
+            25px;
+    }
+
+
+    .hero {
+        margin-bottom: 28px;
+    }
+
+
+    .logo {
+        width: 60px;
+        height: 60px;
+
+        font-size: 27px;
+    }
+
+
+    .hero h1 {
+        font-size: 34px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .hero p {
+        font-size: 14px;
+    }
+
+
+    .search-card,
+    .result {
+        padding: 21px;
+
+        border-radius: 18px;
+    }
+
+
+    form {
+        flex-direction: column;
+    }
+
+
+    form input {
+        width: 100%;
+    }
+
+
+    form button {
+        width: 100%;
+    }
+
+
+    .result-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .result-header h2 {
+        font-size: 25px;
+    }
+
+
+    .summary {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+
+    .summary-card {
+        padding: 16px;
+    }
+
+
+    .assessment {
+        padding: 20px;
+    }
+
+
+    .check-top {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .check-status {
+        margin-top: 2px;
+    }
+
+
+    .analysis-box {
+        flex-direction: column;
+
+        text-align: center;
+
+        padding: 25px 18px;
+    }
+
+
+    .analysis-content {
+        width: 100%;
+    }
+
+
+    .analysis-progress {
+        margin-top: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
+
+    }
+
+    /* =========================================================
+   NEW COMPANY CHECKER VISUALS
+   ========================================================= */
+
+
+/* Logo icon */
+
+.logo-icon {
+    position: relative;
+
+    width: 23px;
+    height: 23px;
+
+    border:
+        3px solid
+        #ffffff;
+
+    border-radius: 50%;
+
+    display: block;
+}
+
+
+.logo-icon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 11px;
+    height: 3px;
+
+    background: #ffffff;
+
+    border-radius: 3px;
+
+    right: -8px;
+    bottom: -4px;
+
+    transform: rotate(45deg);
+
+    transform-origin: left center;
+}
+
+
+/* Analysis heading */
+
+.analysis-eyebrow {
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+
+    color: #3b82f6;
+
+    margin-bottom: 5px;
+}
+
+
+/* Percentage */
+
+.analysis-percentage {
+    text-align: right;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: #3b82f6;
+
+    margin-top: 5px;
+}
+
+
+/* Scanner rings */
+
+.scanner {
+    overflow: visible;
+}
+
+
+.scanner-ring {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    border:
+        1px solid
+        rgba(59, 130, 246, 0.25);
+
+    border-radius: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+}
+
+
+.ring-one {
+    width: 82px;
+    height: 82px;
+
+    animation:
+        ringPulse
+        2s
+        ease-out
+        infinite;
+}
+
+
+.ring-two {
+    width: 102px;
+    height: 102px;
+
+    animation:
+        ringPulse
+        2s
+        1s
+        ease-out
+        infinite;
+}
+
+
+/* Stronger scanner animation */
+
+.scanner-line {
+    animation:
+        scannerSweep
+        1.2s
+        linear
+        infinite;
+}
+
+
+/* Scanner dot pulse */
+
+.scanner-dot {
+    animation:
+        scannerDotPulse
+        1s
+        ease-in-out
+        infinite;
+}
+
+
+/* =========================================================
+   ANIMATION KEYFRAMES
+   ========================================================= */
+
+@keyframes ringPulse {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(0.7);
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1.25);
+    }
+
+}
+
+
+@keyframes scannerDotPulse {
+
+    0%,
+    100% {
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1.6);
+    }
+
+}
+
+
+/* =========================================================
+   ANALYZING BOX
+   ========================================================= */
+
+.analysis-box {
+    min-height: 150px;
+}
+
+
+/* =========================================================
+   BUTTON LOADING EFFECT
+   ========================================================= */
+
+form button:active {
+    box-shadow:
+        0 4px 10px
+        rgba(23, 32, 51, 0.15);
+}
+
+
+/* =========================================================
+   MOBILE SCANNER
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .analysis-box {
+        min-height: 260px;
+    }
+
+}
+
+/* =========================================================
+   COMPANY CHECKER - ANALYSIS ANIMATION
+   ========================================================= */
+
+
+/* Main loading box */
+
+.analysis-box {
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+
+    min-height: 180px;
+
+    padding: 30px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #ffffff
+        );
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+/* Subtle background glow */
+
+.analysis-box::before {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(59, 130, 246, 0.06);
+
+    filter: blur(30px);
+
+    left: -80px;
+    top: -80px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SCANNER
+   ========================================================= */
+
+.analysis-animation {
+    width: 120px;
+
+    height: 120px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+}
+
+
+.scanner {
+    width: 90px;
+
+    height: 90px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(59, 130, 246, 0.25);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.12) 0%,
+            rgba(59, 130, 246, 0.04) 35%,
+            transparent 70%
+        );
+
+    box-shadow:
+        0 0 30px
+        rgba(59, 130, 246, 0.12);
+
+}
+
+
+/* Center dot */
+
+.scanner-dot {
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+
+    left: 50%;
+    top: 50%;
+
+    background: #3b82f6;
+
+    border-radius: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    box-shadow:
+        0 0 12px
+        rgba(59, 130, 246, 0.7);
+
+    z-index: 4;
+}
+
+
+/* Rotating scanner line */
+
+.scanner-line {
+    position: absolute;
+
+    width: 50%;
+
+    height: 2px;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform-origin:
+        left center;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            transparent
+        );
+
+    border-radius: 999px;
+
+    z-index: 3;
+
+    animation:
+        scannerSweep
+        1.5s
+        linear
+        infinite;
+}
+
+
+/* Center point */
+
+.scanner::after {
+    content: "";
+
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    border-radius: 50%;
+
+    background: white;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   SCANNER RINGS
+   ========================================================= */
+
+.scanner-ring {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    border:
+        1px solid
+        rgba(59, 130, 246, 0.25);
+
+    border-radius: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    pointer-events: none;
+}
+
+
+.ring-one {
+
+    width: 70px;
+
+    height: 70px;
+
+    animation:
+        ringPulse
+        2s
+        ease-out
+        infinite;
+}
+
+
+.ring-two {
+
+    width: 100px;
+
+    height: 100px;
+
+    animation:
+        ringPulse
+        2s
+        1s
+        ease-out
+        infinite;
+}
+
+
+/* =========================================================
+   ANALYSIS TEXT
+   ========================================================= */
+
+.analysis-content {
+
+    flex: 1;
+
+    min-width: 0;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.analysis-eyebrow {
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+    color: #3b82f6;
+
+    margin-bottom: 7px;
+}
+
+
+.analysis-content strong {
+
+    display: block;
+
+    font-size: 20px;
+
+    color: #172033;
+
+    margin-bottom: 7px;
+}
+
+
+.analysis-content p {
+
+    color: #667085;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
+
+.analysis-progress {
+
+    width: 100%;
+
+    max-width: 450px;
+
+    height: 6px;
+
+    background: #e5e7eb;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+}
+
+
+.analysis-progress-bar {
+
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #60a5fa
+        );
+
+    transition:
+        width
+        0.2s
+        ease;
+
+    box-shadow:
+        0 0 10px
+        rgba(59, 130, 246, 0.35);
+}
+
+
+.analysis-percentage {
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: #667085;
+
+    margin-top: 6px;
+
+    text-align: right;
+
+    max-width: 450px;
+}
+
+
+/* =========================================================
+   STATUS - ANALYZING
+   ========================================================= */
+
+.status.analyzing {
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    position: relative;
+}
+
+
+.status.analyzing::before {
+
+    content: "";
+
+    width: 7px;
+
+    height: 7px;
+
+    margin-right: 7px;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+    animation:
+        statusPulse
+        1s
+        ease-in-out
+        infinite;
+}
+
+
+/* =========================================================
+   RESULT CARD ANIMATION
+   ========================================================= */
+
+.result-card {
+
+    animation:
+        resultCardIn
+        0.4s
+        ease
+        both;
+}
+
+
+/* =========================================================
+   KEYFRAMES
+   ========================================================= */
+
+@keyframes scannerSweep {
+
+    from {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+@keyframes ringPulse {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(0.7);
+
+    }
+
+    25% {
+
+        opacity: 1;
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1.25);
+
+    }
+
+}
+
+
+@keyframes scannerDotPulse {
+
+    0%,
+    100% {
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1);
+
+        opacity: 1;
+
+    }
+
+    50% {
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            )
+            scale(1.5);
+
+        opacity: 0.7;
+
+    }
+
+}
+
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+
+        transform: scale(1);
+
+        opacity: 1;
+
+    }
+
+    50% {
+
+        transform: scale(1.5);
+
+        opacity: 0.5;
+
+    }
+
+}
+
+
+@keyframes resultCardIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .analysis-box {
+
+        flex-direction: column;
+
+        text-align: center;
+
+        gap: 20px;
+
+        padding: 25px 20px;
+
+    }
+
+
+    .analysis-animation {
+
+        width: 110px;
+
+        height: 110px;
+
+    }
+
+
+    .analysis-content {
+
+        width: 100%;
+
+    }
+
+
+    .analysis-progress {
+
+        max-width: none;
+
+    }
+
+
+    .analysis-percentage {
+
+        max-width: none;
+
+    }
+
+}
+
+}
